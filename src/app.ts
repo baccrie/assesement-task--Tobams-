@@ -11,9 +11,10 @@ app.get('/', (req, res) => {
   })
 })
 
+console.log(typeof process.env.PORT)
 
 const PORT: number = parseInt(process.env.PORT as string) || 8000
 
 app.listen(PORT, ()=> {
-  console.log(`app is listeneing to port ${PORT}`)
+  console.log(`app is listening to port ${PORT}...`)
 })
