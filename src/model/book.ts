@@ -32,8 +32,12 @@ const BookSchema = new Schema({
     }
 })
 
-BookSchema.pre<IBook>('save', function(){
-  this.published_date = new Date(this.published_date)
-})
+
+BookSchema.pre('save', function (next) {
+  if (this.isNew || this.isModified('published_date')) {
+    this.published_date = new Date(this.published_date);
+  }
+  next();
+});
 
 export default model('Book', BookSchema)

@@ -2,20 +2,31 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { StatusCodes } from 'http-status-codes'
-import multer from 'multer';
+import fileUpload from 'express-fileupload';
+import swaggerUi from 'swagger-ui-express';
+
 
 // self modules
 import connectDB from './db/connect.js'
 import router from './router/book.js'
 import notFound from './controller/notFound.js'
 import errorHandler from './controller/errorHandler.js'
+import openApiDocumentation from './docs.json' assert { type: 'json' };
+
+
 
 dotenv.config({path: './.env'})
 const app = express()
 
+
 // built-in middlewares
-app.use(express.json())
+app.use(express.json());
 app.use(express.static('./public'))
+
+// Set up file upload middleware
+app.use(fileUpload())
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
 
 // Check app status

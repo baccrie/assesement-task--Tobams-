@@ -7,6 +7,13 @@ import IBook from '../interface/model.js';
 import BadRequestError from "../error/badRequest.js";
 import NotFoundError from "../error/notFound.js";
 import { ValidateBook } from '../validate/book.js';
+import  { UploadedFile } from 'express-fileupload';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 export async function createBook(req: Request, res: Response, next: NextFunction) {
   try {
@@ -128,19 +135,54 @@ export async function deleteBook(req: Request, res: Response, next: NextFunction
 }
 }
 
-export async function updateCoverPicture(_req: Request, res: Response, next: NextFunction) {
-  try {
-    // 1.) extract id from req
+export async function updateCoverPicture(req: Request, res: Response, next: NextFunction) {
+   try {
 
-    // 2.) check if book exists
+    const { id } = req.params;
 
-    // 3.) update Book Cover
+    // Check if file is uploaded
+    if (!req.files || !req.files.coverImage) {
+      throw new BadRequestError('No file uploaded');
+    }
 
-    // 4.) return response
-    res.status(StatusCodes.OK).json({
-      msg: 'update cover image'
-    })
-  } catch(err) {
-    next(err)
+    // Get the uploaded file
+    const file = req.files.coverImage as UploadedFile;
+
+    console.log(file)
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!allowedTypes.includes(file.mimetype)) {
+      throw new BadRequestError('Invalid file type. Only JPEG, PNG, and JPG files are allowed.');
+    }
+
+    // Define file path
+    const uploadPath = path.join(__dirname, '../public/img', `${Date.now()}-${file.name}`);
+
+    console.log(uploadPath)
+
+    // Move the file to the desired directory
+    file.mv(uploadPath, async (err) => {
+      if (err) {
+        return next(err);
+      }
+
+      // Check if book exists
+      const book = await Book.findById(id);
+      if (!book) {
+        throw new NotFoundError(`Book with ID ${id} does not exist`);
+      }
+
+      // Update book with the new cover image path
+      book.coverImage = uploadPath;
+      await book.save();
+
+      res.status(StatusCodes.OK).json({
+        msg: 'Cover image updated successfully',
+        data: book
+      });
+    });
+   }catch (err) {
+      next(err);
+    }
   }
-}
