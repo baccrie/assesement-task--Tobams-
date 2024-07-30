@@ -20,6 +20,11 @@ export default function errorHandler(error: ICustomError, req: Request, res: Res
     statusCode = StatusCodes.BAD_REQUEST;
   }
 
+  if (error.name === 'CastError') {
+  message = `No book found with id : ${error.value}`;
+    statusCode = StatusCodes.NOT_FOUND
+  }
+
   const start: Boolean = `${statusCode}`.startsWith('4')
   res.status(statusCode).json({
     status: `${start ? 'error' : 'fail'}`,

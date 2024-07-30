@@ -1,4 +1,5 @@
 export default interface ICustomError extends Error {
+  value: any;
   errors(errors: any): unknown;
   path: any;
   title: string;

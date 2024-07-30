@@ -16,6 +16,7 @@ export async function getAllBooks(_req: Request, res: Response, next: NextFuncti
     if (allBooks.length === 0) {
       throw new NotFoundError('No book found')
     }
+
     res.status(StatusCodes.OK).json({
       data: allBooks
     })
@@ -28,14 +29,16 @@ export async function getAllBooks(_req: Request, res: Response, next: NextFuncti
 export async function getSingleBook(req: Request, res: Response, next: NextFunction) {
   try {
     const {params: id} = req
+    console.log(id)
 
     // 1.) find book
     const book = await Book.findById(req.params.id)
 
     // 2.) check book existence
     if (!book) {
-      throw new NotFoundError('No book with such id')
+      throw new NotFoundError(`No book found with id... ${id}`)
     }
+    
     res.status(StatusCodes.OK).json({
       data: book
     })
