@@ -1,5 +1,13 @@
 import { Schema, model } from "mongoose";
 
+export interface IBook extends Document {
+  title: string;
+  author: string;
+  published_date: Date;
+  ISBN: string;
+  coverImage?: string;
+}
+
 const BookSchema = new Schema({
   title: {
     type: String,
@@ -9,7 +17,7 @@ const BookSchema = new Schema({
 
   author: {
     type: String,
-    required: [true, 'Please provide aan author'],
+    required: [true, 'Please provide an author'],
     minLength: [5, 'author name too short'],
 
   },
