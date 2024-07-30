@@ -21,9 +21,9 @@ export async function getSingleBook(req: Request, res: Response, next: NextFunct
   try {
     const {params: id} = req
 
-    const book = await Book.findById(id)
+    const book = await Book.findById(req.params.id)
     res.status(StatusCodes.OK).json({
-      msg: 'get one book'
+      data: book
     })
   } catch(err) {
     next(err)
