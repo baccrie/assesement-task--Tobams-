@@ -10,12 +10,21 @@ import router from './router/book.js'
 dotenv.config({path: './.env'})
 const app = express()
 
-app.use('/books', router)
+// built-in middlewares
+app.use(express.json())
+
+
+// Check app status
 app.get('/', (req, res) => {
   res.status(StatusCodes.OK).json({
     status: "app working...."
   })
 })
+
+// mount book router for CRUD
+app.use('/books', router)
+// app.use()  // not found
+// app.use()  // error handler
 
 const PORT: number = parseInt(process.env.PORT as string) || 8000;
 

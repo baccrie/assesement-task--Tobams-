@@ -3,15 +3,18 @@ import {getAllBooks, getSingleBook, updateBook, createBook, deleteBook, updateCo
 
 const router = express.Router()
 
+// CREATE
+router.post('/', createBook)
 
+// READ
 router.get('/:id', getSingleBook)
 router.get('/', getAllBooks)
 
-router.post('/', createBook)
-
+// UPDATE
 router.put('/:id', updateBook)
-router.delete('/:id', deleteBook)
-
 router.patch('/cover-image/:id', updateCoverPicture)
+
+// DELETE
+router.delete('/:id', deleteBook)
 
 export default router
