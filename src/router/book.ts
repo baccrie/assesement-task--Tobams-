@@ -13,3 +13,5 @@ router.put('/:id', updateBook)
 router.delete('/:id', deleteBook)
 
 router.patch('/cover-image/:id', updateCoverPicture)
+
+export default router
