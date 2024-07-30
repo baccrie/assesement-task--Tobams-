@@ -5,6 +5,15 @@ import { StatusCodes } from 'http-status-codes'
 dotenv.config({path: './.env'})
 const app = express()
 
-const PORT: any = process.env.PORT || 8000
+app.get('/', (req, res) => {
+  res.status(StatusCodes.OK).json({
+    status: "app working...."
+  })
+})
 
-app.listen((PORT: any) => console.log(`server is running on port ${PORT}`))
+
+const PORT: number = parseInt(process.env.PORT as string) || 8000
+
+app.listen(PORT, ()=> {
+  console.log(`app is listeneing to port ${PORT}`)
+})
