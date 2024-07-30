@@ -14,6 +14,7 @@ const app = express()
 
 // built-in middlewares
 app.use(express.json())
+app.use(express.static('./public'))
 
 
 // Check app status

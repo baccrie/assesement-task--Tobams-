@@ -7,6 +7,7 @@ export default function errorHandler(error: ICustomError, req: Request, res: Res
   let message = error.message || 'Something went wrong';
 
   if (error.name === 'ValidationError') {
+    console.log('validation error')
     message = Object.values(error.errors)
       .map((item) => item.message)
       .join(',');
@@ -14,6 +15,8 @@ export default function errorHandler(error: ICustomError, req: Request, res: Res
   }
 
   if (error.code && error.code === 11000) {
+    console.log('duplicate error')
+
     message = `Duplicate value entered for ${Object.keys(
       error.keyValue
     )} field, please choose another value`;
@@ -21,6 +24,8 @@ export default function errorHandler(error: ICustomError, req: Request, res: Res
   }
 
   if (error.name === 'CastError') {
+    console.log('cast error')
+
   message = `No book found with id : ${error.value}`;
     statusCode = StatusCodes.NOT_FOUND
   }

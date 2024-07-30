@@ -6,6 +6,7 @@ import IBook from '../interface/model.js';
 
 import BadRequestError from "../error/badRequest.js";
 import NotFoundError from "../error/notFound.js";
+import { ValidateBook } from '../validate/book.js';
 
 export async function getAllBooks(_req: Request, res: Response, next: NextFunction){
     try {
@@ -14,7 +15,7 @@ export async function getAllBooks(_req: Request, res: Response, next: NextFuncti
 
     //2.) check if any book exist
     if (allBooks.length === 0) {
-      throw new NotFoundError('No book found')
+      throw new NotFoundError('No book found!')
     }
 
     res.status(StatusCodes.OK).json({
@@ -28,15 +29,17 @@ export async function getAllBooks(_req: Request, res: Response, next: NextFuncti
 
 export async function getSingleBook(req: Request, res: Response, next: NextFunction) {
   try {
-    const {params: id} = req
-    console.log(id)
+    const { 
+      params: {
+      id
+    }} = req
 
     // 1.) find book
-    const book = await Book.findById(req.params.id)
+    const book = await Book.findById(id)
 
     // 2.) check book existence
     if (!book) {
-      throw new NotFoundError(`No book found with id... ${id}`)
+      throw new NotFoundError(`No book found with id ${id}`)
     }
     
     res.status(StatusCodes.OK).json({
@@ -50,9 +53,14 @@ export async function getSingleBook(req: Request, res: Response, next: NextFunct
 export async function createBook(req: Request, res: Response, next: NextFunction) {
   try {
     // 1.) get payload
-    const payload =  req.body
+    const {body: payload} =  req
 
     // 2.) validate payload
+    const { error } = ValidateBook.validate(payload)
+    if (error) {
+      console.log('joi error')
+      throw new BadRequestError(`${error.details[0].message}`)
+    }
 
     // 3.) create new Book
     const newBook = await Book.create(payload)
@@ -67,8 +75,15 @@ export async function createBook(req: Request, res: Response, next: NextFunction
 
 export async function updateBook(req: Request, res: Response, next: NextFunction) {
   try {
-    // 1.) get id from params
+    // 1a.) get id from params
     const {params: id, body: payload} = req 
+
+    // 1b. payload validation
+    const { error } = ValidateBook.validate(payload)
+    if (error) {
+      console.log('joi error')
+      throw new BadRequestError(`${error.details[0].message}`)
+    }
 
     // 2.) check if book with id exists
     let book = await Book.findById(id)
