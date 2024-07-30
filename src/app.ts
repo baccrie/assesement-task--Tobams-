@@ -6,6 +6,8 @@ import { StatusCodes } from 'http-status-codes'
 // self modules
 import connectDB from './db/connect.js'
 import router from './router/book.js'
+import notFound from './controller/notFound.js'
+import errorHandler from './controller/errorHandler.js'
 
 dotenv.config({path: './.env'})
 const app = express()
@@ -23,8 +25,8 @@ app.get('/', (req, res) => {
 
 // mount book router for CRUD
 app.use('/books', router)
-// app.use()  // not found
-// app.use()  // error handler
+app.all('*', notFound)  // not found
+app.use(errorHandler)  // error handler
 
 const PORT: number = parseInt(process.env.PORT as string) || 8000;
 

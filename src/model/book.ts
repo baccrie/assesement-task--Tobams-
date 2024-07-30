@@ -1,13 +1,5 @@
 import { Schema, model } from "mongoose";
 
-export interface IBook extends Document {
-  title: string;
-  author: string;
-  published_date: Date;
-  ISBN: string;
-  coverImage?: string;
-}
-
 const BookSchema = new Schema({
   title: {
     type: String,

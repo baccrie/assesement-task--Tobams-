@@ -1,13 +1,18 @@
 import { StatusCodes } from 'http-status-codes'
 import { Request, Response, NextFunction } from 'express';
 
-import Book, { IBook } from '../model/book.js'
+import Book from '../model/book.js'
+import IBook from '../interface/model.js';
 
 export async function getAllBooks(_req: Request, res: Response, next: NextFunction){
     try {
     // 1.) Find all books
     const allBooks = await Book.find()
 
+    //2.) check if any book exist
+    if (allBooks.length === 0) {
+      throw new Error('No book found')
+    }
     res.status(StatusCodes.OK).json({
       data: allBooks
     })
@@ -21,7 +26,13 @@ export async function getSingleBook(req: Request, res: Response, next: NextFunct
   try {
     const {params: id} = req
 
+    // 1.) find book
     const book = await Book.findById(req.params.id)
+
+    // 2.) check book existence
+    if (!book) {
+      throw new Error('No book with such id')
+    }
     res.status(StatusCodes.OK).json({
       data: book
     })
@@ -48,15 +59,25 @@ export async function createBook(req: Request, res: Response, next: NextFunction
   }
 }
 
-export async function updateBook(_req: Request, res: Response, next: NextFunction) {
+export async function updateBook(req: Request, res: Response, next: NextFunction) {
   try {
     // 1.) get id from params
+    const {params: id, body: payload} = req 
 
     // 2.) check if book with id exists
+    let book = await Book.findById(id)
 
     // 3.) handle errors
+    if (!book) {
+      throw new Error('Book with id dosent exist')
+    }
 
     // 4.) return res
+    book = await Book.findOneAndUpdate({_id: id}, payload, {
+      runValidators: true,
+      new: true
+    })
+    
     res.status(StatusCodes.OK).json({
       msg: 'update book'
     })
@@ -65,17 +86,23 @@ export async function updateBook(_req: Request, res: Response, next: NextFunctio
   }
 }
 
-export async function deleteBook(_req: Request, res: Response, next: NextFunction)  {
+export async function deleteBook(req: Request, res: Response, next: NextFunction)  {
   try {
     // 1.) check if book exists
+    const {params: id} = req
 
-    // 2.) Handle book errors
+    // 1.) find book
+    const book = await Book.findById(req.params.id)
+
+    // 2.) check book existence
+    if (!book) {
+      throw new Error('No book with such id')
+    }
 
     // 3.) delete book cover images
 
     // 4.) Delete Book
-
-    // 5.) Return response
+    await Book.findByIdAndDelete(req.params.id)
   res.status(StatusCodes.OK).json({
     msg: 'delete a book'
   })
