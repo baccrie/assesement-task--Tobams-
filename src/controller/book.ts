@@ -8,6 +8,28 @@ import BadRequestError from "../error/badRequest.js";
 import NotFoundError from "../error/notFound.js";
 import { ValidateBook } from '../validate/book.js';
 
+export async function createBook(req: Request, res: Response, next: NextFunction) {
+  try {
+    // 1.) get payload
+    const {body: payload} =  req
+
+    // 2.) validate payload
+    const { error } = ValidateBook.validate(payload)
+    if (error) {
+      console.log('joi error')
+      throw new BadRequestError(`${error.details[0].message}`)
+    }
+
+    // 3.) create new Book
+    const newBook = await Book.create(payload)
+
+    // 4.) response 
+    res.status(StatusCodes.OK).json(newBook)
+  } catch(err) {
+    next(err)
+  }
+}
+
 export async function getAllBooks(_req: Request, res: Response, next: NextFunction){
     try {
     // 1.) Find all books
@@ -18,9 +40,7 @@ export async function getAllBooks(_req: Request, res: Response, next: NextFuncti
       throw new NotFoundError('No book found!')
     }
 
-    res.status(StatusCodes.OK).json({
-      data: allBooks
-    })
+    res.status(StatusCodes.OK).json(allBooks)
   } catch(err) {
     next(err)
   }
@@ -39,39 +59,15 @@ export async function getSingleBook(req: Request, res: Response, next: NextFunct
 
     // 2.) check book existence
     if (!book) {
-      throw new NotFoundError(`No book found with id ${id}`)
+      throw new NotFoundError(`book with ${id} dosent exist`)
     }
     
-    res.status(StatusCodes.OK).json({
-      data: book
-    })
+    res.status(StatusCodes.OK).json(book)
   } catch(err) {
     next(err)
   }
 }
 
-export async function createBook(req: Request, res: Response, next: NextFunction) {
-  try {
-    // 1.) get payload
-    const {body: payload} =  req
-
-    // 2.) validate payload
-    const { error } = ValidateBook.validate(payload)
-    if (error) {
-      console.log('joi error')
-      throw new BadRequestError(`${error.details[0].message}`)
-    }
-
-    // 3.) create new Book
-    const newBook = await Book.create(payload)
-    // 4.) response 
-    res.status(StatusCodes.OK).json({
-      msg: 'create book'
-    })
-  } catch(err) {
-    next(err)
-  }
-}
 
 export async function updateBook(req: Request, res: Response, next: NextFunction) {
   try {
@@ -85,24 +81,18 @@ export async function updateBook(req: Request, res: Response, next: NextFunction
       throw new BadRequestError(`${error.details[0].message}`)
     }
 
-    // 2.) check if book with id exists
-    let book = await Book.findById(id)
-
-    // 3.) handle errors
-    if (!book) {
-      throw new NotFoundError('Book with id dosent exist')
-    }
-
-    // 4.) return res
-    book = await Book.findOneAndUpdate({_id: id}, payload, {
+    // 2.) check, validate and update
+    const updatedBook = await Book.findOneAndUpdate({ _id: id }, payload, {
       runValidators: true,
       new: true
-    })
+    });
+
     
-    res.status(StatusCodes.OK).json({
-      msg: 'update book',
-      data: book
-    })
+    if (!updatedBook) {
+      throw new NotFoundError(`Book with ID ${id} does not exist.`);
+    }
+ 
+    res.status(StatusCodes.OK).json(updatedBook)
   } catch(err) {
     next(err)
   }
@@ -110,25 +100,28 @@ export async function updateBook(req: Request, res: Response, next: NextFunction
 
 export async function deleteBook(req: Request, res: Response, next: NextFunction)  {
   try {
-    // 1.) check if book exists
-    const {params: {id}} = req
+    // // 1.) check if book exists
+    // const {params: {id}} = req
 
-    // 1.) find book
-    let book = await Book.findById(id)
 
-    // 2.) check book existence
-    if (!book) {
-      throw new NotFoundError('No book with such id')
-    }
+    // console.log('inside delete')
+    // console.log(id)
+
+
+    // // // 1.) find book
+    // // let book = await Book.findById(id)
+    
+    // // if (!book) {
+    // //   throw new NotFoundError(`Book with ID ${id} does not exist.`);
+    // // }
+
+    // // 2.) Delete book
+    // await Book.findOneAndDelete({_id: id})
 
     // 3.) delete book cover images
 
-    // 4.) Delete Book
-    book = await Book.findByIdAndDelete(id)
   res.status(StatusCodes.OK).json({
-
     msg: 'book successfully deleted',
-    data: book
   })
 } catch(err) {
   next(err)

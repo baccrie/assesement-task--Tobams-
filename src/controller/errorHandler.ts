@@ -26,7 +26,8 @@ export default function errorHandler(error: ICustomError, req: Request, res: Res
   if (error.name === 'CastError') {
     console.log('cast error')
 
-  message = `No book found with id : ${error.value}`;
+  message = `Book with ID ${error.value} does not exist.
+`;
     statusCode = StatusCodes.NOT_FOUND
   }
 

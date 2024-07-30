@@ -2,6 +2,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { StatusCodes } from 'http-status-codes'
+import multer from 'multer';
 
 // self modules
 import connectDB from './db/connect.js'

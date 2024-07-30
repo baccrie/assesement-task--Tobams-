@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-
+import IBook from "../interface/model.js";
 
 const BookSchema = new Schema({
   title: {
@@ -30,6 +30,10 @@ const BookSchema = new Schema({
       type: String,
       // unique: [true, 'duplicate cover image name'],
     }
+})
+
+BookSchema.pre<IBook>('save', function(){
+  this.published_date = new Date(this.published_date)
 })
 
 export default model('Book', BookSchema)
