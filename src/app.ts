@@ -1,6 +1,10 @@
+//node modules
 import express from 'express'
 import dotenv from 'dotenv'
 import { StatusCodes } from 'http-status-codes'
+
+// self modules
+import connectDB from './db/connect.js'
 
 dotenv.config({path: './.env'})
 const app = express()
@@ -11,10 +15,11 @@ app.get('/', (req, res) => {
   })
 })
 
-console.log(typeof process.env.PORT)
+const PORT: number = parseInt(process.env.PORT as string) || 8000;
 
-const PORT: number = parseInt(process.env.PORT as string) || 8000
-
-app.listen(PORT, ()=> {
-  console.log(`app is listening to port ${PORT}...`)
-})
+(async function start() {
+  await connectDB(`${process.env.MONGO_URL}`)
+  app.listen(PORT, ()=> {
+    console.log(`app is listening to port ${PORT}...`)
+  })
+})()
