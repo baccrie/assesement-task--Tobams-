@@ -1,38 +1,49 @@
 import { StatusCodes } from 'http-status-codes'
 import { Request, Response, NextFunction } from 'express';
 
+import Book, { IBook } from '../model/book.js'
 
-export function getAllBooks(_req: Request, res: Response){
-  res.status(StatusCodes.OK).json({
-    msg: 'get all books'
-  })
+export async function getAllBooks(_req: Request, res: Response, next: NextFunction){
+    try {
+    const allBooks = await Book.find()
+    res.status(StatusCodes.OK).json({
+      msg: 'get all books'
+    })
+  } catch(err) {
+    next(err)
+  }
 }
 
-export function getSingleBook(_req: Request, res: Response) {
-  res.status(StatusCodes.OK).json({
-    msg: 'get one book'
-  })
+
+export async function getSingleBook(_req: Request, res: Response, next: NextFunction) {
+  try {
+    res.status(StatusCodes.OK).json({
+      msg: 'get one book'
+    })
+  } catch(err) {
+    next(err)
+  }
 }
 
-export function createBook(_req: Request, res: Response) {
+export async function createBook(_req: Request, res: Response, next: NextFunction) {
   res.status(StatusCodes.OK).json({
     msg: 'create book'
   })
 }
 
-export function updateBook(_req: Request, res: Response) {
+export async function updateBook(_req: Request, res: Response, next: NextFunction) {
   res.status(StatusCodes.OK).json({
     msg: 'update book'
   })
 }
 
-export function deleteBook(_req: Request, res: Response)  {
+export async function deleteBook(_req: Request, res: Response, next: NextFunction)  {
   res.status(StatusCodes.OK).json({
     msg: 'delete a book'
   })
 }
 
-export function updateCoverPicture(_req: Request, res: Response) {
+export async function updateCoverPicture(_req: Request, res: Response, next: NextFunction) {
   res.status(StatusCodes.OK).json({
     msg: 'update cover image'
   })
