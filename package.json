@@ -1,0 +1,14 @@
+{
+  "name": "assesement-task--tobams-",
+  "version": "1.0.0",
+  "description": "backend developer assessment repo",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "bakare",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
