@@ -76,7 +76,7 @@ export async function createBook(req: Request, res: Response, next: NextFunction
 export async function updateBook(req: Request, res: Response, next: NextFunction) {
   try {
     // 1a.) get id from params
-    const {params: id, body: payload} = req 
+    const {params: {id}, body: payload} = req 
 
     // 1b. payload validation
     const { error } = ValidateBook.validate(payload)
@@ -100,7 +100,8 @@ export async function updateBook(req: Request, res: Response, next: NextFunction
     })
     
     res.status(StatusCodes.OK).json({
-      msg: 'update book'
+      msg: 'update book',
+      data: book
     })
   } catch(err) {
     next(err)
@@ -110,10 +111,10 @@ export async function updateBook(req: Request, res: Response, next: NextFunction
 export async function deleteBook(req: Request, res: Response, next: NextFunction)  {
   try {
     // 1.) check if book exists
-    const {params: id} = req
+    const {params: {id}} = req
 
     // 1.) find book
-    const book = await Book.findById(req.params.id)
+    let book = await Book.findById(id)
 
     // 2.) check book existence
     if (!book) {
@@ -123,9 +124,11 @@ export async function deleteBook(req: Request, res: Response, next: NextFunction
     // 3.) delete book cover images
 
     // 4.) Delete Book
-    await Book.findByIdAndDelete(req.params.id)
+    book = await Book.findByIdAndDelete(id)
   res.status(StatusCodes.OK).json({
-    msg: 'delete a book'
+
+    msg: 'book successfully deleted',
+    data: book
   })
 } catch(err) {
   next(err)

@@ -28,7 +28,7 @@ const BookSchema = new Schema({
 
     coverImage: {
       type: String,
-      unique: [true, 'duplicate cover image name'],
+      // unique: [true, 'duplicate cover image name'],
     }
 })
 
