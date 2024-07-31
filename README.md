@@ -107,7 +107,7 @@ This project is a basic CRUD API for managing a collection of books. It allows u
 
     - **Type:** File (multipart/form-data)
     - **Content-Type:** image/jpeg, image/png, etc.
-    - **Description:** The image file to be uploaded.
+    - **Description:** The image file to be uploaded max 0f 10MB.
 
 - **Response**:
 

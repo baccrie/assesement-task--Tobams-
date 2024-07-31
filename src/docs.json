@@ -327,6 +327,7 @@
             "description": "The ID of the book to update cover picture"
           }
         ],
+
         "requestBody": {
           "required": true,
           "content": {
@@ -337,7 +338,7 @@
                   "coverImage": {
                     "type": "string",
                     "format": "binary",
-                    "description": "The cover image file to upload"
+                    "description": "The cover image file to upload max of 10MB"
                   }
                 }
               }
