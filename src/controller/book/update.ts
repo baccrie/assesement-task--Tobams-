@@ -77,7 +77,7 @@ export async function updateCoverPicture(req: Request, res: Response, next: Next
      fs.mkdirSync(uploadDir, { recursive: true });
    }
 
-   // 7.) Move the file to the desired directory
+   // 7.) Move the file to the img static dir
    file.mv(uploadPath, async (err) => {
      if (err) {
        return next(err);

@@ -98,13 +98,16 @@ This project is a basic CRUD API for managing a collection of books. It allows u
 
 - **Endpoint**: `PATCH /books/cover-image/:id`
 - **Request Parameters**: `id` (Book ID)
-- **Request Body**:
 
-  ```json
-  {
-    "coverImage": "http://example.com/new-cover.jpg"
-  }
-  ```
+  ### Request Body
+
+- **Form-data Parameters:**
+
+  - `coverImage` (required) — The new cover image file. The file should be sent as multipart form-data. Acceptable formats include `.jpg`, `.png`, `.jpeg`, etc.
+
+    - **Type:** File (multipart/form-data)
+    - **Content-Type:** image/jpeg, image/png, etc.
+    - **Description:** The image file to be uploaded.
 
 - **Response**:
 
