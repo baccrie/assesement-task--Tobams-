@@ -46,46 +46,51 @@ export async function updateCoverPicture(req: Request, res: Response, next: Next
 
    const { id } = req.params;
 
-      // Check if book exists
+      // 1.) Check if book exists
       const book = await Book.findById(id);
       if (!book) {
         throw new NotFoundError(`Book with ID ${id} does not exist...`);
       }
 
-   // Check if file is uploaded
+   // 2.) Check if file is uploaded
    if (!req.files || !req.files.coverImage) {
      throw new BadRequestError('No file uploaded');
    }
 
-   // Get the uploaded file
+   // 3.) Get the uploaded file from file upload
    const file = req.files.coverImage as UploadedFile;
 
-   // Validate file type
+   // 4.) Validate file type
    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
    if (!allowedTypes.includes(file.mimetype)) {
      throw new BadRequestError('Invalid file type. Only JPEG, PNG, and JPG files are allowed.');
    }
 
-   // Define file path
-   const uploadPath = path.join(__dirname, '../public/img', `${Date.now()}-${file.name}`);
+   const extension = path.extname(file.name)
+   // 5.) Define file path
+   const uploadPath = path.join(__dirname, '../../public/img', `${book.ISBN}${extension}`);
 
-   console.log(uploadPath)
 
-   // check if folder exists
-   const uploadDir = path.join(__dirname, '../public/img');
+   // 6.) check if folder exists
+   const uploadDir = path.join(__dirname, '../../public/img');
    if (!fs.existsSync(uploadDir)) {
      fs.mkdirSync(uploadDir, { recursive: true });
    }
 
-   // Move the file to the desired directory
+   // 7.) Move the file to the desired directory
    file.mv(uploadPath, async (err) => {
      if (err) {
        return next(err);
      }
 
-     // Update book with the new cover image path
-     book.coverImage = uploadPath;
-     await book.save();
+    // 8.) Delete old cover picture from public
+    if (book.coverImage && fs.existsSync(book.coverImage)) {
+      fs.unlinkSync(book.coverImage)
+    }
+
+    // Update book with the new cover image path
+    book.coverImage = uploadPath;
+    await book.save();
 
      res.status(StatusCodes.OK).json({
        msg: 'Cover image updated successfully',

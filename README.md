@@ -16,8 +16,8 @@ This project is a basic CRUD API for managing a collection of books. It allows u
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/baccrie/assesement-task--Tobams-
-   cd assesement-task--Tobams-
+   git clone https://github.com/baccrie/assessement-task--Tobams
+   cd assessement-task--Tobams
    ```
 
 2. **Install Dependencies**
@@ -32,7 +32,7 @@ This project is a basic CRUD API for managing a collection of books. It allows u
 
    ```
    MONGO_URI=mongodb://localhost:27017/your-database-name
-   PORT=8000
+   PORT=5000
    ```
 
 4. **Run the Application**
@@ -76,8 +76,7 @@ This project is a basic CRUD API for managing a collection of books. It allows u
     "title": "Book Title",
     "author": "Author Name",
     "published_date": "2024-07-30T00:00:00.000Z",
-    "ISBN": "123-456-789",
-    "coverImage": "http://example.com/cover.jpg"
+    "ISBN": "123-456-789"
   }
   ```
 
@@ -90,7 +89,7 @@ This project is a basic CRUD API for managing a collection of books. It allows u
     "author": "Author Name",
     "published_date": "2024-07-30T00:00:00.000Z",
     "ISBN": "123-456-789",
-    "coverImage": "http://example.com/cover.jpg",
+    "coverImage": "",
     "__v": 0
   }
   ```
@@ -170,8 +169,7 @@ This project is a basic CRUD API for managing a collection of books. It allows u
     "title": "Updated Book Title",
     "author": "Updated Author Name",
     "published_date": "2024-07-30T00:00:00.000Z",
-    "ISBN": "123-456-789",
-    "coverImage": "http://example.com/cover.jpg"
+    "ISBN": "123-456-789"
   }
   ```
 
@@ -205,11 +203,11 @@ This project is a basic CRUD API for managing a collection of books. It allows u
 
 ### Unit and Integration Tests
 
-- **Framework**: Jest or Mocha with Supertest
+- **Framework**: Jest was used with Supertest for testing the endpoints
 - **Running Tests**:
 
   ```bash
-  npm test
+  npm run test
   ```
 
 - **Test Files**: Located in the `tests` directory.
@@ -246,3 +244,5 @@ If you would like to contribute to this project, please follow these guidelines:
 1. Fork the repository.
 2. Create a new branch for your feature or fix.
 3. Submit a pull request with a description of your changes.
+
+## You can checkout the live swagger docs using the link below
