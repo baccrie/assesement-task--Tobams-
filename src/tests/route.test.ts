@@ -1,21 +1,20 @@
 import request from 'supertest';
 import express from 'express';
-import mongoose from 'mongoose';
 import { StatusCodes } from 'http-status-codes';
 import Book from '../model/book';
 import app from '../app';
 import path from 'path';
-import connectDB from '../db/connect';
+import connectDB  from './jest.setup'
+import closeConn from './jest.teardown'
 
 // Setup test database connection
 beforeAll(async () => {
-  await connectDB(`${process.env.MONGO_URL}`);
+  await connectDB()
 });
 
 // Cleanup and disconnect after tests
 afterAll(async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
+  await closeConn()
 });
 
 describe('Book API', () => {
