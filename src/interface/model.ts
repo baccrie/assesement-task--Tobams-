@@ -5,3 +5,11 @@ export default interface IBook extends Document {
   ISBN: string;
   coverImage?: string;
 }
+
+export interface BookPayload {
+  title: string;
+  author: string;
+  publishedDate: Date;
+  ISBN: string;
+  coverImage?: string;
+}

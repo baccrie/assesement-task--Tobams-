@@ -5,7 +5,7 @@ import fs from 'fs'
 import Book from '../../model/book'
 import NotFoundError from "../../error/notFound";
 
-export async function deleteBook(req: Request, res: Response, next: NextFunction) {
+export async function deleteBook(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     // 1.) Get the book ID from the request parameters
     const { id } = req.params;

@@ -9,10 +9,11 @@ import BadRequestError from "../../error/badRequest";
 import NotFoundError from "../../error/notFound";
 import { UpdateBook } from '../../validate/book';
 import  { UploadedFile } from 'express-fileupload';
+import { BookPayload } from '../../interface/model';
 
 
 
-export async function updateBook(req: Request, res: Response, next: NextFunction) {
+export async function updateBook(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     // 1a.) get id from params
     const {params: {id}, body: payload} = req 
@@ -41,7 +42,7 @@ export async function updateBook(req: Request, res: Response, next: NextFunction
 }
 
 
-export async function updateCoverPicture(req: Request, res: Response, next: NextFunction) {
+export async function updateCoverPicture(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
 
    const { id } = req.params;

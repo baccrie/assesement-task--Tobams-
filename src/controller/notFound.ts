@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes'
 import { Request, Response, NextFunction } from 'express';
 
-export default function notFound(req: Request, res: Response) {
+export default function notFound(req: Request, res: Response):void {
   res.status(StatusCodes.NOT_FOUND).json({
-    msg: "Oops, endpoints dosent exists..."
+    msg: "Oops, the endpoint doesn't exist..."
   })
 }

@@ -1,7 +1,5 @@
 import request from 'supertest';
-import express from 'express';
 import { StatusCodes } from 'http-status-codes';
-import Book from '../model/book';
 import app from '../app';
 import path from 'path';
 import connectDB  from './jest.setup'

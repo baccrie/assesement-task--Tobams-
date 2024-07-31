@@ -5,12 +5,13 @@ import Book from '../../model/book'
 
 import BadRequestError from "../../error/badRequest";
 import { CreateBook } from '../../validate/book';
+import { BookPayload } from '../../interface/model';
 
 
-export async function createBook(req: Request, res: Response, next: NextFunction) {
+export async function createBook(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     // 1.) get payload
-    const {body: payload} =  req
+    const payload: BookPayload = req.body;
 
     // 2.) validate payload
     const { error, value: validatedPayload } = CreateBook.validate(payload)
