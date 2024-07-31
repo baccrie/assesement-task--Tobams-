@@ -263,4 +263,7 @@ If you would like to contribute to this project, please follow these guidelines:
 2. Create a new branch for your feature or fix.
 3. Submit a pull request with a description of your changes.
 
-## You can checkout the live swagger docs using the link below
+## Useful Links
+
+- [Swagger API Docs](https://tobams-intern-assessement.onrender.com/api-docs)
+- [Hosted Link](https://tobams-intern-assessement.onrender.com/)

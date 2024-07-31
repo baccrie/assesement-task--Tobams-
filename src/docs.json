@@ -12,8 +12,8 @@
 
   "servers": [
     {
-      "url": "http://localhost:5000",
-      "description": "Local server"
+      "url": "",
+      "description": "Live server"
     }
   ],
 
