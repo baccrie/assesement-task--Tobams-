@@ -1,8 +1,23 @@
-# Books CRUD API
+## Overview
 
-## Objective
+The project includes a basic CRUD API for managing a collection of books. It is implemented using Node.js with Express.js and includes functionality for creating, reading, updating, and deleting books. Additionally, it handles file uploads for book cover images and integrates with MongoDB for data storage.
 
-This project is a basic CRUD API for managing a collection of books. It allows users to perform Create, Read, Update, and Delete operations on book data. The API is built using Node.js, Express.js, TypeScript, and MongoDB.
+## Features
+
+- **CRUD Operations**: Create, Read, Update, and Delete books.
+- **File Uploads**: Supports cover image uploads with file size limitations.
+- **Error Handling**: Custom error handling for various types of errors including validation and database errors.
+- **Documentation**: Swagger UI for API documentation.
+
+## Technologies Used
+
+- Node.js
+- Express.js
+- TypeScript
+- MongoDB
+- Joi (for validation)
+- Swagger UI (for API documentation)
+- File Upload Handling
 
 ## Project Setup
 
@@ -16,8 +31,8 @@ This project is a basic CRUD API for managing a collection of books. It allows u
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/baccrie/assessement-task--Tobams
-   cd assessement-task--Tobams
+   git clone https://github.com/baccrie/tobams-intern-assessement
+   cd tobams-intern-assessement
    ```
 
 2. **Install Dependencies**
@@ -43,7 +58,7 @@ This project is a basic CRUD API for managing a collection of books. It allows u
    npm start
    ```
 
-   The server will be running on `http://localhost:8000`.
+   The server will be running on `http://localhost:5000`.
 
 ### Project Structure
 
