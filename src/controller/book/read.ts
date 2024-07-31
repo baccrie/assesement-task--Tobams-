@@ -31,7 +31,7 @@ try {
     id
   }} = req
 
-  // 1.) find, or throww error if book dosent exist
+  // 1.) find, or throw error if book dosent exist
   const book = await Book.checkBook(id)
   
   res.status(StatusCodes.OK).json(book)
