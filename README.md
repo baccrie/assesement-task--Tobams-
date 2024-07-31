@@ -46,7 +46,7 @@ The project includes a basic CRUD API for managing a collection of books. It is 
    Create a `.env` file in the root directory and add your environment variables:
 
    ```
-   MONGO_URI=mongodb://localhost:27017/your-database-name
+   MONGO_URL=mongodb://localhost:27017/your-database-name
    PORT=5000
    ```
 
