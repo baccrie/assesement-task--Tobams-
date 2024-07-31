@@ -1,4 +1,4 @@
-import customError from "./customError.js";
+import customError from "./customError";
 import { StatusCodes } from "http-status-codes";
 
 export default class NotFoundError extends customError {

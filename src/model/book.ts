@@ -1,17 +1,19 @@
 import { Schema, model } from "mongoose";
-import IBook from "../interface/model.js";
+import IBook from "../interface/model";
 
 const BookSchema = new Schema({
   title: {
     type: String,
     required: [true, 'Please provide a title'],
     minLength: [5, 'title too short'],
+    trim: true
   },
 
   author: {
     type: String,
     required: [true, 'Please provide an author'],
     minLength: [5, 'author name too short'],
+    trim: true
 
   },
 
@@ -28,7 +30,6 @@ const BookSchema = new Schema({
 
     coverImage: {
       type: String,
-      // unique: [true, 'duplicate cover image name'],
     }
 })
 

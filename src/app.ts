@@ -4,15 +4,15 @@ import dotenv from 'dotenv'
 import { StatusCodes } from 'http-status-codes'
 import fileUpload from 'express-fileupload';
 import swaggerUi from 'swagger-ui-express';
+import openApiDocumentation from './docs.json'
+
 
 
 // self modules
-import connectDB from './db/connect.js'
-import router from './router/book.js'
-import notFound from './controller/notFound.js'
-import errorHandler from './controller/errorHandler.js'
-import openApiDocumentation from './docs.json' assert { type: 'json' };
-
+import connectDB from './db/connect'
+import router from './router/book'
+import notFound from './controller/notFound'
+import errorHandler from './controller/errorHandler'
 
 
 dotenv.config({path: './.env'})
@@ -26,6 +26,8 @@ app.use(express.static('./public'))
 // Set up file upload middleware
 app.use(fileUpload())
 
+
+// swagger  docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
 
@@ -49,3 +51,5 @@ const PORT: number = parseInt(process.env.PORT as string) || 8000;
     console.log(`app is listening to port ${PORT}...`)
   })
 })()
+
+export default app
