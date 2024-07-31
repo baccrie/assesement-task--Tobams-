@@ -219,11 +219,22 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Book"
+                  "$ref": "#/components/schemas/Book",
+
+                  "example": {
+                    "_id": "unique-id",
+                    "title": "Updated Book Title",
+                    "author": "Updated Author Name",
+                    "published_date": "2024-07-30T00:00:00.000Z",
+                    "ISBN": "123-456-789",
+                    "coverImage": "http://example.com/cover.jpg",
+                    "__v": 0
+                  }
                 }
               }
             }
           },
+
           "400": {
             "description": "Invalid input",
             "content": {
@@ -271,16 +282,35 @@
             "description": "The ID of the book to delete"
           }
         ],
+
         "responses": {
           "200": {
-            "description": "Book deleted successfully"
+            "description": "Book deleted successfully",
+            "schema": {
+              "example": {
+                "message": "Book deleted successfully"
+              }
+            }
           },
-          "404": {
-            "description": "Book not found"
+
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError",
+                  "example": {
+                    "status": "fail",
+                    "msg": "Book with ID does not exist.."
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
+
     "/books/cover-image/{id}": {
       "patch": {
         "summary": "Update book cover picture",
@@ -314,27 +344,62 @@
             }
           }
         },
+
         "responses": {
           "200": {
             "description": "Cover image updated successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Book"
+                  "$ref": "#/components/schemas/BookOut",
+                  "example": {
+                    "_id": "unique-id",
+                    "title": "Book Title",
+                    "author": "Author Name",
+                    "published_date": "2024-07-30T00:00:00.000Z",
+                    "ISBN": "123-456-789",
+                    "coverImage": "http://example.com/new-cover.jpg",
+                    "__v": 0
+                  }
                 }
               }
             }
           },
+
           "400": {
-            "description": "Invalid input"
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError",
+                  "example": {
+                    "status": "fail",
+                    "msg": "Book with ID does not exist.."
+                  }
+                }
+              }
+            }
           },
-          "404": {
-            "description": "Book not found"
+
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError",
+                  "example": {
+                    "status": "fail",
+                    "msg": "Something went wrong"
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
   },
+
   "components": {
     "schemas": {
       "Book": {
