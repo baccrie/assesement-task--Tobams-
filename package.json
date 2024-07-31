@@ -7,9 +7,7 @@
     "start": "npm run build && nodemon ./dist/app.js",
     "build": "npx tsc",
     "dev": "nodemon --watch src/app.ts --exec npm start",
-    "test": "jest --detectOpenHandles",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test": "rm -rf ./dist && jest --detectOpenHandles"
   },
   "author": "bakare",
   "license": "ISC",
