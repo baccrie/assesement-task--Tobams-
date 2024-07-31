@@ -68,7 +68,7 @@ describe('Book API', () => {
     // For file upload testing, use a valid image file
     const res = await request(app)
       .patch(`/books/cover-image/${bookId}`)
-      .attach('coverImage', path.join(__dirname, 'test-image.jpg'));
+      .attach('coverImage', path.join(__dirname, 'test-image.png'));
 
     expect(res.statusCode).toBe(StatusCodes.OK);
     expect(res.body.msg).toBe("Cover image updated successfully");
