@@ -75,7 +75,7 @@ This project is a basic CRUD API for managing a collection of books. It allows u
   {
     "title": "Book Title",
     "author": "Author Name",
-    "published_date": "2024-07-30T00:00:00.000Z",
+    "published_date": "2024-07-30",
     "ISBN": "123-456-789"
   }
   ```

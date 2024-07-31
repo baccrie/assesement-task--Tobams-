@@ -3,30 +3,44 @@
   "info": {
     "title": "Books Collection API",
     "description": "This is a CRUD API for managing a 'Books' collection.",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "contact": {
+      "name": "Bakare Rilwan",
+      "email": "bakarerilwan1@gmail.com"
+    }
   },
+
   "servers": [
     {
       "url": "http://localhost:5000",
       "description": "Local server"
     }
   ],
+
   "paths": {
     "/books": {
       "post": {
         "summary": "Create a new book",
         "description": "Creates a new book in the collection.",
         "tags": ["Books"],
+
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookInput"
+                "$ref": "#/components/schemas/BookInput",
+                "example": {
+                  "title": "Book Title",
+                  "author": "Author Name",
+                  "published_date": "2024-07-30",
+                  "ISBN": "123-456-789"
+                }
               }
             }
           }
         },
+
         "responses": {
           "200": {
             "description": "Book created successfully",
@@ -38,11 +52,39 @@
               }
             }
           },
+
           "400": {
-            "description": "Invalid input"
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError",
+                  "example": {
+                    "status": "fail",
+                    "msg": "Book with ID does not exist.."
+                  }
+                }
+              }
+            }
+          },
+
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError",
+                  "example": {
+                    "status": "fail",
+                    "msg": "Something went wrong"
+                  }
+                }
+              }
+            }
           }
         }
       },
+
       "get": {
         "summary": "Get all books",
         "description": "Retrieves a list of all books in the collection.",
@@ -55,18 +97,40 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Book"
+                    "$ref": "#/components/schemas/Book",
+                    "example": {
+                      "_id": "unique-id-1",
+                      "title": "Book Title 1",
+                      "author": "Author Name 1",
+                      "published_date": "2024-07-30T00:00:00.000Z",
+                      "ISBN": "123-456-789",
+                      "coverImage": "http://example.com/cover1.jpg",
+                      "__v": 0
+                    }
                   }
                 }
               }
             }
           },
+
           "404": {
-            "description": "No books found"
+            "description": "NotFound Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError",
+                  "example": {
+                    "status": "fail",
+                    "msg": "No book found!"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
+
     "/books/{id}": {
       "get": {
         "summary": "Get a single book",
@@ -83,22 +147,45 @@
             "description": "The ID of the book to retrieve"
           }
         ],
+
         "responses": {
           "200": {
             "description": "A single book",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Book"
+                  "$ref": "#/components/schemas/Book",
+                  "example": {
+                    "_id": "unique-id",
+                    "title": "Book Title",
+                    "author": "Author Name",
+                    "published_date": "2024-07-30T00:00:00.000Z",
+                    "ISBN": "123-456-789",
+                    "coverImage": "http://example.com/cover.jpg",
+                    "__v": 0
+                  }
                 }
               }
             }
           },
+
           "404": {
-            "description": "Book not found"
+            "description": "NotFound Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError",
+                  "example": {
+                    "status": "fail",
+                    "msg": "No book found!"
+                  }
+                }
+              }
+            }
           }
         }
       },
+
       "put": {
         "summary": "Update a book",
         "description": "Updates the details of a book by ID.",
@@ -114,16 +201,18 @@
             "description": "The ID of the book to update"
           }
         ],
+
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookInput"
+                "$ref": "#/components/schemas/BookOutput"
               }
             }
           }
         },
+
         "responses": {
           "200": {
             "description": "Book updated successfully",
@@ -136,13 +225,37 @@
             }
           },
           "400": {
-            "description": "Invalid input"
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError",
+                  "example": {
+                    "status": "fail",
+                    "msg": "Book with ID does not exist.."
+                  }
+                }
+              }
+            }
           },
-          "404": {
-            "description": "Book not found"
+
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError",
+                  "example": {
+                    "status": "fail",
+                    "msg": "Something went wrong"
+                  }
+                }
+              }
+            }
           }
         }
       },
+
       "delete": {
         "summary": "Delete a book",
         "description": "Deletes a book by ID.",
@@ -254,6 +367,7 @@
           }
         }
       },
+
       "BookInput": {
         "type": "object",
         "required": ["title", "author", "published_date", "ISBN"],
@@ -276,6 +390,83 @@
             "example": "123-456-789"
           }
         }
+      },
+
+      "BookOutput": {
+        "type": "object",
+        "required": ["title", "author", "published_date", "ISBN"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Book Title"
+          },
+          "author": {
+            "type": "string",
+            "example": "Book Author"
+          },
+          "published_date": {
+            "type": "string",
+            "format": "date",
+            "example": "2023-01-01"
+          },
+          "ISBN": {
+            "type": "string",
+            "example": "123-456-789"
+          },
+
+          "coverImage": {
+            "type": "string",
+            "example": "https::/localhost:5000/project/public/img/2023-01-01.png"
+          }
+        }
+      },
+
+      "BadRequestError": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "status"
+          },
+
+          "msg": {
+            "type": "string",
+            "title": "status"
+          }
+        },
+        "type": "object",
+        "title": "BadRequestError"
+      },
+
+      "NotFoundError": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "status"
+          },
+
+          "msg": {
+            "type": "string",
+            "title": "status"
+          }
+        },
+        "type": "object",
+        "title": "BadRequestError"
+      },
+
+      "ServerError": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "status"
+          },
+
+          "msg": {
+            "type": "string",
+            "title": "status"
+          }
+        },
+        "type": "object",
+        "title": "ServerError"
       }
     }
   }
