@@ -351,7 +351,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BookOut",
+                  "$ref": "#/components/schemas/BookOutput",
                   "example": {
                     "_id": "unique-id",
                     "title": "Book Title",

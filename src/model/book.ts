@@ -1,5 +1,11 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Model } from "mongoose";
+import NotFoundError from "../error/notFound";
 import IBook from "../interface/model";
+
+
+interface IBookModel extends Model<IBook> {
+  checkBook(id: string): Promise<IBook | null>;
+}
 
 const BookSchema = new Schema({
   title: {
@@ -33,7 +39,7 @@ const BookSchema = new Schema({
     }
 })
 
-
+// presave hook
 BookSchema.pre('save', function (next) {
   if (this.isNew || this.isModified('published_date')) {
     this.published_date = new Date(this.published_date);
@@ -41,4 +47,13 @@ BookSchema.pre('save', function (next) {
   next();
 });
 
-export default model('Book', BookSchema)
+// static method to implement the DRY principle in controllers
+BookSchema.statics.checkBook = async function (id) {
+  const book = await this.findById(id)
+  if (!book) throw new NotFoundError(`book with ${id} dosent exist`)
+  return book
+}
+
+const Book: IBookModel = model<IBook, IBookModel>('Book', BookSchema);
+
+export default Book

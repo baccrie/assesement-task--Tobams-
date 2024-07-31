@@ -31,13 +31,8 @@ try {
     id
   }} = req
 
-  // 1.) find book
-  const book = await Book.findById(id)
-
-  // 2.) check book existence
-  if (!book) {
-    throw new NotFoundError(`book with ${id} dosent exist`)
-  }
+  // 1.) find, or throww error if book dosent exist
+  const book = await Book.checkBook(id)
   
   res.status(StatusCodes.OK).json(book)
 } catch(err) {
