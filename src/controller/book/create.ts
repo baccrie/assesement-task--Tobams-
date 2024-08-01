@@ -16,7 +16,6 @@ export async function createBook(req: Request, res: Response, next: NextFunction
     // 2.) validate payload
     const { error, value: validatedPayload } = CreateBook.validate(payload)
     if (error) {
-      console.log('joi error')
       throw new BadRequestError(`${error.details[0].message}`)
     }
 

@@ -48,7 +48,7 @@ BookSchema.pre('save', function (next) {
 });
 
 // static method to implement the DRY principle in controllers
-BookSchema.statics.checkBook = async function (id) {
+BookSchema.statics.checkBook = async function (id: string) {
   const book = await this.findById(id)
   if (!book) throw new NotFoundError(`book with ${id} dosent exist`)
   return book

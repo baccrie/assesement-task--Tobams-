@@ -9,7 +9,7 @@ export default interface IBook extends Document {
 export interface BookPayload {
   title: string;
   author: string;
-  publishedDate: Date;
+  published_date: Date;
   ISBN: string;
   coverImage?: string;
 }

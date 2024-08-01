@@ -18,9 +18,13 @@ export async function deleteBook(req: Request, res: Response, next: NextFunction
       throw new NotFoundError(`Book with ID ${id} does not exist.`);
     }
 
-     // ) Delete cover image  if it exists
-     if (book.coverImage && fs.existsSync(book.coverImage)) {
-      fs.unlinkSync(book.coverImage)
+    // ) Delete cover image if it exists...
+    if (book.coverImage && fs.existsSync(book.coverImage)) {
+      try {
+        fs.unlinkSync(book.coverImage);
+      } catch (fileErr) {
+        console.error('Error deleting cover image:', fileErr);
+      }
     }
 
     // 4.) Respond with success message

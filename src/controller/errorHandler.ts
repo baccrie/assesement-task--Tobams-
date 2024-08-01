@@ -32,7 +32,7 @@ export default function errorHandler(
     statusCode = StatusCodes.NOT_FOUND;
   }
 
-  const start: Boolean = `${statusCode}`.startsWith('4')
+  const start: boolean = `${statusCode}`.startsWith('4');
   res.status(statusCode).json({
     status: `${start ? 'error' : 'fail'}`,
     msg: message
